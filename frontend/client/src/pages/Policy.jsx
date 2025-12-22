@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout.jsx";
 
 const Policy=()=>{
     return(
-        <Layout>
+        <Layout title={"Privacy Policy - All-Mart"}>
             <div className="row policy-container p-4">
                 <div className="col-md-6 ">
                     <img

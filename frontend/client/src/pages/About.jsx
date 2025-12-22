@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout.jsx";
 
 const About=()=>{
     return(
-        <Layout>
+        <Layout title={"About us - All-Mart"}>
             <div className="row contactus ">
                 <div className="col-md-6 ">
                     <img
@@ -12,7 +12,7 @@ const About=()=>{
                         style={{ width: "100%" }}
                     />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <h1 className="bg-dark p-2 text-white text-center">ABOUT US</h1>
                     <p className="text-justify mt-2">
                         Welcome to our e-commerce platform, your one-stop destination for all your shopping needs.

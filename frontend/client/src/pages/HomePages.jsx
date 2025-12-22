@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout.jsx";
 
 const HomePage = () => {
     return (
-        <Layout>
+        <Layout title={"Best offers"}>
             <h1>Home Page</h1>
         </Layout>
     );
