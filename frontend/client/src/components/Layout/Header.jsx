@@ -44,20 +44,13 @@ const Header=()=>{
                                     Login
                                 </NavLink>
                             </li>
+                            {/* ✅ New Cart link */}
+                            <li className="nav-item">
+                                <NavLink to="/cart" className="nav-link">
+                                    Cart 🛒
+                                </NavLink>
+                            </li>
                         </ul>
-
-                        {/* //! The search form is kept as is for now, but will likely need functionality later. */}
-                        {/* <form className="d-flex" role="search">
-                            <input
-                                className="form-control me-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                            />
-                            <button className="btn btn-outline-success" type="submit">
-                                Search
-                            </button>
-                        </form> */}
                     </div>
                 </div>
             </nav>
