@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Layout from "../../components/Layout/Layout.jsx";
-import  toast  from "react-hot-toast";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../../styles/AuthStyles.css'
+
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -14,13 +14,18 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters long");
+            return;
+        }
         try {
-            const res = await axios.post("http://localhost:8080/api/v1/auth/register", {
+            const res = await axios.post(`${import.meta.env.VITE_API}/api/v1/auth/register`, {
                 name,
                 email,
                 password,
                 phone,
                 address,
+                answer, // Include answer in the request
             });
             if (res && res.data.success) {
                 toast.success(res.data.message);
@@ -37,7 +42,7 @@ const Register = () => {
     return (
         <Layout title={"Register - All-Mart"}>
             <div className="register">
-                <h1>Register Form</h1>
+                <h1>Register Here</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <input
@@ -91,6 +96,17 @@ const Register = () => {
                             className="form-control"
                             id="addressInput"
                             placeholder="Enter Your Address"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <input
+                            type="text"
+                            value={answer}
+                            onChange={(e) => setAnswer(e.target.value)}
+                            className="form-.control"
+                            id="answerInput"
+                            placeholder="What is your favorite sport?"
                             required
                         />
                     </div>
