@@ -10,6 +10,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [answer, setAnswer] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -17,27 +18,28 @@ const Register = () => {
         if (password.length < 6) {
             toast.error("Password must be at least 6 characters long");
             return;
-        }
-        try {
-            const res = await axios.post(`${import.meta.env.VITE_API}/api/v1/auth/register`, {
-                name,
-                email,
-                password,
-                phone,
-                address,
-                answer, // Include answer in the request
-            });
-            if (res && res.data.success) {
-                toast.success(res.data.message);
-                navigate("/login");
-            } else {
-                toast.error(res.data.message);
+        } else {
+            try {
+                const res = await axios.post("http://localhost:8080/api/v1/auth/register", {
+                    name,
+                    email,
+                    password,
+                    phone,
+                    address,
+                    answer,
+                });
+                if (res && res.data.success) {
+                    toast.success(res.data.message);
+                    navigate("/login");
+                } else {
+                    toast.error(res.data.message);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error("Something went wrong");
             }
-        } catch (error) {
-            console.log(error);
-            toast.error("Something went wrong");
         }
-    };
+    }
 
     return (
         <Layout title={"Register - All-Mart"}>
@@ -104,7 +106,7 @@ const Register = () => {
                             type="text"
                             value={answer}
                             onChange={(e) => setAnswer(e.target.value)}
-                            className="form-.control"
+                            className="form-control"
                             id="answerInput"
                             placeholder="What is your favorite sport?"
                             required
