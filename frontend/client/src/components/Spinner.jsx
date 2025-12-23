@@ -16,7 +16,7 @@ const Spinner = ({ path = "login" }) => {
   useEffect(() => {
     if (count === 0) {
       navigate(`/${path}`, {
-        state: { from: location.pathname },
+        state: location.pathname,
       });
     }
   }, [count, navigate, location, path]);
