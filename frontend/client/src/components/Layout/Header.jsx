@@ -3,7 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import { toast } from 'react-toastify';
 
-const Header=()=>{
+const Header = () => {
     const [auth, setAuth] = useAuth();
 
     const handleLogout = () => {
@@ -16,10 +16,16 @@ const Header=()=>{
         toast.success("Logout Successfully");
     };
 
-    return(
+    return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                <div className="container-fluid">
+            <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                <div className="container">
+                    {/* Brand */}
+                    <Link to="/" className="navbar-brand fw-bold text-primary">
+                        🛒 All-Mart
+                    </Link>
+
+                    {/* Toggler */}
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -32,48 +38,70 @@ const Header=()=>{
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
+                    {/* Nav Links */}
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                        <Link to="/" className="navbar-brand">
-                            🛒 E-commerce App
-                        </Link>
-
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-link">
+                                <NavLink to="/" className="nav-link hover-link">
                                     Home
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/category" className="nav-link">
+                                <NavLink to="/category" className="nav-link hover-link">
                                     Category
                                 </NavLink>
                             </li>
+
                             {!auth?.user ? (
                                 <>
                                     <li className="nav-item">
-                                        <NavLink to="/register" className="nav-link">
+                                        <NavLink to="/register" className="nav-link hover-link">
                                             Register
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink to="/login" className="nav-link">
+                                        <NavLink to="/login" className="nav-link hover-link">
                                             Login
                                         </NavLink>
                                     </li>
                                 </>
                             ) : (
-                                <>
-                                    <li className="nav-item">
-                                        <NavLink onClick={handleLogout} to="/login" className="nav-link">
-                                            Logout
-                                        </NavLink>
-                                    </li>
-                                </>
+                                <li className="nav-item dropdown">
+                                    <NavLink
+                                        className="nav-link dropdown-toggle hover-link"
+                                        href="#"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        {auth?.user?.name}
+                                    </NavLink>
+                                    <ul className="dropdown-menu dropdown-menu-end shadow rounded">
+                                        <li>
+                                            <NavLink to="/dashboard" className="dropdown-item hover-dropdown">
+                                                Dashboard
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                onClick={handleLogout}
+                                                to="/login"
+                                                className="dropdown-item text-danger hover-dropdown"
+                                            >
+                                                Logout
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </li>
                             )}
-                            {/* ✅ New Cart link */}
-                            <li className="nav-item">
-                                <NavLink to="/cart" className="nav-link">
+
+                            {/* Cart with badge */}
+                            <li className="nav-item ms-3">
+                                <NavLink to="/cart" className="nav-link position-relative hover-link">
                                     Cart 🛒
+                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger animate-badge">
+                    3
+                  </span>
                                 </NavLink>
                             </li>
                         </ul>
@@ -81,6 +109,7 @@ const Header=()=>{
                 </div>
             </nav>
         </>
-    )
-}
-export default Header
+    );
+};
+
+export default Header;

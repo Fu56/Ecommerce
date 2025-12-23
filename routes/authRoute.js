@@ -11,7 +11,7 @@ router.post('/register',registerController)
 //LOGIN || METHODE POST
 router.post('/login',loginController)
 //forget password || POST
-router.post('/forget-password',forgetPasswordController)
+router.post('/forgot-password',forgetPasswordController)
 
 //test routes
 router.get('/test',requireSignIn,isAdmin,testController)
