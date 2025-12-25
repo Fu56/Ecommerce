@@ -7,6 +7,9 @@ import {
     productPhotoController,
     deleteProductController,
     updateProductController,
+    productFiltersController,
+    productCountController,
+    productListController,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -28,5 +31,14 @@ router.delete("/delete-product/:pid", deleteProductController);
 
 // Update product
 router.put("/update-product/:pid", formidable(), updateProductController);
+
+// Filter product
+router.post("/product-filters", productFiltersController);
+
+// Product count
+router.get("/product-count", productCountController);
+
+// Product per page
+router.get("/product-list/:page", productListController);
 
 export default router;
