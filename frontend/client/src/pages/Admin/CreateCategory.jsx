@@ -205,11 +205,23 @@ const CreateCategory = () => {
 
                                 {/* Single Category Display */}
                                 {selectedCategory && (
-                                    <div className="mt-4 card border-info shadow-sm p-3">
-                                        <h5 className="text-info">Selected Category</h5>
-                                        <p className="mb-1"><strong>{selectedCategory.name}</strong></p>
-                                        <p className="text-muted">{selectedCategory.description}</p>
-                                        <small className="text-secondary">Slug: {selectedCategory.slug}</small>
+                                    <div className="modal show d-block" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                                        <div className="modal-dialog modal-dialog-centered">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title fw-bold">{selectedCategory.name}</h5>
+                                                    <button type="button" className="btn-close" onClick={() => setSelectedCategory(null)}></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <p><strong>Name:</strong> {selectedCategory.name}</p>
+                                                    <p><strong>Description:</strong> {selectedCategory.description}</p>
+                                                    <p><strong>Slug:</strong> {selectedCategory.slug}</p>
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-secondary" onClick={() => setSelectedCategory(null)}>Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </div>
