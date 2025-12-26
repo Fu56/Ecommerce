@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart.jsx";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Modal } from "antd";
+import axios from "axios";
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const receiptRef = useRef();
 
   //total price
   const totalPrice = () => {
@@ -38,6 +43,82 @@ const CartPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  //handle checkout
+  const handleCheckout = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/order/place-order", {
+        cart,
+      });
+      if (data?.ok) {
+        const generatedId =
+          "ORD-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+        setOrderId(generatedId);
+        setShowReceipt(true);
+        toast.success("Order Placed Successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong with checkout");
+    }
+  };
+
+  // Print Receipt
+  const handlePrint = () => {
+    const printContent = receiptRef.current;
+    const originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContent.innerHTML;
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload(); // Reload to restore React bindings
+  };
+
+  // Download as Text
+  const handleDownloadTxt = () => {
+    const receiptText = `
+========================================
+           ALL-MART RECEIPT
+========================================
+Order ID:   ${orderId}
+Date:       ${new Date().toLocaleString()}
+Status:     PAID
+========================================
+
+CUSTOMER DETAILS:
+Name:       ${auth?.user?.name}
+Email:      ${auth?.user?.email}
+Address:    ${auth?.user?.address}
+
+========================================
+ITEMS PURCHASED:
+${cart
+  .map((p, i) => `${i + 1}. ${p.name.padEnd(25)} $${p.price}.00`)
+  .join("\n")}
+
+========================================
+SUBTOTAL:   ${totalPrice()}
+TAX (0%):   $0.00
+TOTAL:      ${totalPrice()}
+========================================
+
+Thank you for shopping at All-Mart!
+Visit us again at: www.all-mart.com
+========================================
+    `;
+    const element = document.createElement("a");
+    const file = new Blob([receiptText], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = `receipt-${orderId}.txt`;
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const handleFinish = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
+    setShowReceipt(false);
+    navigate("/");
   };
 
   return (
@@ -156,6 +237,7 @@ const CartPage = () => {
 
               <button
                 className="btn btn-dark btn-lg w-100 rounded-pill fw-bold mt-2"
+                onClick={handleCheckout}
                 disabled={
                   !auth?.token || !auth?.user?.address || cart.length === 0
                 }
@@ -166,6 +248,177 @@ const CartPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Receipt Modal */}
+      <Modal
+        title="Order Receipt"
+        open={showReceipt}
+        onCancel={() => setShowReceipt(false)}
+        footer={[
+          <button
+            className="btn btn-outline-primary me-2"
+            onClick={handlePrint}
+          >
+            <i className="bi bi-printer me-1"></i> Print / PDF
+          </button>,
+          <button
+            className="btn btn-outline-secondary me-2"
+            onClick={handleDownloadTxt}
+          >
+            <i className="bi bi-download me-1"></i> Download TXT
+          </button>,
+          <button className="btn btn-dark" onClick={handleFinish}>
+            Finish
+          </button>,
+        ]}
+        width={600}
+      >
+        <div
+          ref={receiptRef}
+          className="receipt-container p-4"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          <div className="text-center mb-5">
+            <h1
+              className="brand-text fw-bold mb-0"
+              style={{ letterSpacing: "2px" }}
+            >
+              ALL-MART
+            </h1>
+            <p className="text-secondary small mb-3">E-COMMERCE SOLUTIONS</p>
+            <div
+              style={{
+                height: "2px",
+                background:
+                  "linear-gradient(to right, transparent, #c1121f, transparent)",
+                margin: "10px 0",
+              }}
+            ></div>
+            <h4
+              className="fw-bold text-uppercase mt-2"
+              style={{ letterSpacing: "4px" }}
+            >
+              Sales Receipt
+            </h4>
+          </div>
+
+          <div className="row mb-4">
+            <div className="col-7">
+              <h6 className="text-muted small text-uppercase fw-bold mb-1">
+                Company Details:
+              </h6>
+              <p className="small mb-0 fw-bold">All-Mart Global Inc.</p>
+              <p className="small mb-0">123 Business Plaza, Tech City</p>
+              <p className="small mb-0">T: +1 (555) 000-1234</p>
+              <p className="small">E: support@all-mart.com</p>
+            </div>
+            <div className="col-5 text-end">
+              <div className="bg-light p-2 rounded">
+                <p className="mb-0 small text-muted text-uppercase fw-bold">
+                  Invoiced To:
+                </p>
+                <p className="fw-bold mb-0">{auth?.user?.name}</p>
+                <p className="small mb-0">{auth?.user?.address}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="row mb-5 pb-3 border-bottom">
+            <div className="col-6">
+              <p className="mb-0 small text-muted text-uppercase fw-bold">
+                Order Number:
+              </p>
+              <p className="fw-bold text-primary">{orderId}</p>
+            </div>
+            <div className="col-6 text-end">
+              <p className="mb-0 small text-muted text-uppercase fw-bold">
+                Transaction Date:
+              </p>
+              <p className="fw-bold">{new Date().toLocaleString()}</p>
+            </div>
+          </div>
+
+          <div className="order-items mb-4">
+            <table className="table table-borderless">
+              <thead className="border-bottom">
+                <tr>
+                  <th className="small text-muted text-uppercase">
+                    Description
+                  </th>
+                  <th className="small text-muted text-uppercase text-end">
+                    Amount
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart.map((p) => (
+                  <tr key={p._id}>
+                    <td className="py-3">
+                      <div className="fw-bold">{p.name}</div>
+                      <div className="small text-muted">
+                        {p.description.substring(0, 40)}...
+                      </div>
+                    </td>
+                    <td className="py-3 text-end fw-bold align-middle">
+                      ${p.price}.00
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="row justify-content-end mt-4 d-print-none">
+            <div className="col-12 text-center mb-3">
+              <div className="d-flex justify-content-center gap-3">
+                <button
+                  className="btn btn-primary rounded-pill px-4 shadow-sm"
+                  onClick={handlePrint}
+                >
+                  <i className="bi bi-file-earmark-pdf me-2"></i> Download PDF
+                </button>
+                <button
+                  className="btn btn-outline-dark rounded-pill px-4 shadow-sm"
+                  onClick={handleDownloadTxt}
+                >
+                  <i className="bi bi-file-earmark-text me-2"></i> Download TXT
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="row justify-content-end mt-4">
+            <div className="col-6">
+              <div className="card border-0 bg-light p-3">
+                <div className="d-flex justify-content-between mb-2">
+                  <span className="text-muted">Subtotal:</span>
+                  <span className="fw-bold">{totalPrice()}</span>
+                </div>
+                <div className="d-flex justify-content-between mb-2">
+                  <span className="text-muted">Tax (0%):</span>
+                  <span className="fw-bold">$0.00</span>
+                </div>
+                <div className="border-top pt-2 d-flex justify-content-between">
+                  <h5 className="fw-bold mb-0">Total Paid:</h5>
+                  <h5 className="fw-bold text-danger mb-0">{totalPrice()}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-5 pt-5">
+            <p className="small text-muted mb-1">
+              Payment Status: <span className="badge bg-success">PAID</span>
+            </p>
+            <p className="small text-muted mb-0">
+              *** This is a computer-generated receipt ***
+            </p>
+            <p className="fw-bold small brand-text mt-3">
+              Thanks for choosing All-Mart!
+            </p>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   );
 };
