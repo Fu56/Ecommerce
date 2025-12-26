@@ -27,14 +27,18 @@ const AdminOrders = () => {
       setLoading(true);
       const { data } = await axios.get("/api/v1/order/all-orders");
       if (data?.success) {
-        setOrders(data.orders);
-        console.log("Orders loaded:", data.orders?.length);
+        setOrders(data.orders || []);
+        console.log("Orders loaded successfully:", data.orders?.length);
       } else {
-        toast.error("Failed to load orders");
+        toast.error(data?.message || "Failed to load orders");
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Error loading orders");
+      console.error("Order Fetch Error:", error);
+      const errorMsg =
+        error.response?.data?.message ||
+        error.message ||
+        "Error loading orders";
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

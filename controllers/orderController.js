@@ -21,18 +21,21 @@ export const getOrdersController = async (req, res) => {
 //all orders (Admin)
 export const getAllOrdersController = async (req, res) => {
   try {
+    console.log("Fetching all orders for admin...");
     const orders = await orderModel
       .find({})
-      .populate("products", "-image")
-      .populate("buyer", "name")
-      .sort({ createdAt: "-1" });
-    res.json({ success: true, orders });
+      .populate("products", "name price category description")
+      .populate("buyer", "name email phone")
+      .sort({ createdAt: -1 });
+
+    console.log(`Found ${orders?.length || 0} orders`);
+    res.json({ success: true, orders: orders || [] });
   } catch (error) {
-    console.log(error);
+    console.error("Error in getAllOrdersController:", error);
     res.status(500).send({
       success: false,
       message: "Error while getting all orders",
-      error,
+      error: error.message,
     });
   }
 };
