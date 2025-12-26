@@ -268,7 +268,7 @@ export const productCategoryController = async (req, res) => {
   }
 };
 
-// get similier product
+// get similar product
 export const relatedProductController = async (req, res) => {
   try {
     const { pid, cid } = req.params;
@@ -288,7 +288,7 @@ export const relatedProductController = async (req, res) => {
     console.log(error);
     res.status(400).send({
       success: false,
-      message: "error while geting related product",
+      message: "error while getting related product",
       error,
     });
   }

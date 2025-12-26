@@ -23,6 +23,9 @@ import Categories from "./pages/Categories.jsx";
 import CategoryProduct from "./pages/CategoryProduct.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
 import CartPage from "./pages/CartPage.jsx";
+import AdminOrders from "./pages/Admin/AdminOrders.jsx";
+import PaymentSuccess from "./pages/PaymentSuccess.jsx";
+import MockCheckout from "./pages/MockCheckout.jsx";
 
 function App() {
   return (
@@ -47,6 +50,7 @@ function App() {
             element={<CreateProduct />}
           />
           <Route path="/dashboard/admin/users" element={<User />} />
+          <Route path="/dashboard/admin/orders" element={<AdminOrders />} />
         </Route>
 
         <Route path="/register" element={<Register />} />
@@ -60,6 +64,8 @@ function App() {
         <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/mock-checkout" element={<MockCheckout />} />
       </Routes>
       <ToastContainer autoClose={3000} />
     </>

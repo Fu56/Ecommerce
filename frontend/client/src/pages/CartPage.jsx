@@ -45,18 +45,37 @@ const CartPage = () => {
     }
   };
 
-  //handle checkout
+  //handle checkout with Chapa
   const handleCheckout = async () => {
     try {
-      const { data } = await axios.post("/api/v1/order/place-order", {
-        cart,
+      // Calculate total amount
+      let total = 0;
+      cart?.forEach((item) => {
+        total += item.price;
       });
-      if (data?.ok) {
-        const generatedId =
-          "ORD-" + Math.random().toString(36).substr(2, 9).toUpperCase();
-        setOrderId(generatedId);
-        setShowReceipt(true);
-        toast.success("Order Placed Successfully!");
+
+      // Convert USD to ETB (approximate rate: 1 USD = 120 ETB)
+      const amountInETB = total * 120;
+
+      // Split user name
+      const nameParts = auth?.user?.name?.split(" ") || ["", ""];
+      const firstName = nameParts[0] || "Customer";
+      const lastName = nameParts.slice(1).join(" ") || "User";
+
+      // Initialize payment with Chapa
+      const { data } = await axios.post("/api/v1/payment/initialize", {
+        amount: amountInETB,
+        email: auth?.user?.email,
+        firstName: firstName,
+        lastName: lastName,
+        cart: cart.map((item) => item._id),
+      });
+
+      if (data?.success) {
+        // Redirect to Chapa payment page
+        window.location.href = data.data.checkout_url;
+      } else {
+        toast.error("Failed to initialize payment");
       }
     } catch (error) {
       console.log(error);

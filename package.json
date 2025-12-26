@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Fu56/Ecommerce#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "chapa": "^1.0.5",
     "colors": "^1.4.0",
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",

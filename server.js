@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoute.js";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 import cors from "cors";
 
 //rest object
@@ -28,6 +29,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoutes);
+app.use("/api/v1/payment", paymentRoutes);
 
 // rest api
 app.get("/", (req, res) => {

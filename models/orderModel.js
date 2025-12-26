@@ -8,7 +8,17 @@ const orderSchema = new mongoose.Schema(
         ref: "Product",
       },
     ],
-    payment: {},
+    payment: {
+      status: {
+        type: String,
+        enum: ["pending", "completed", "failed"],
+        default: "pending",
+      },
+      tx_ref: String,
+      amount: Number,
+      method: String,
+      charge: Number,
+    },
     buyer: {
       type: mongoose.ObjectId,
       ref: "User",

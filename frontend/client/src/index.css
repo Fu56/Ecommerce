@@ -674,3 +674,327 @@
   margin-right: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
+
+/* Cart Page Styles */
+.cart-items-container {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.cart-items-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cart-items-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.cart-items-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+  border-radius: 10px;
+}
+
+.cart-summary-card {
+  position: sticky;
+  top: 100px;
+  transition: all 0.3s ease;
+}
+
+.cart-summary-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-5px);
+}
+
+/* Payment Success Page Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-checkmark {
+  animation: bounceIn 0.6s ease-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .cart-summary-card {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .filter-card {
+    position: static;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-text {
+    font-size: 1.5rem;
+  }
+
+  .nav-link-custom {
+    margin: 5px 0;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .search-container {
+    max-width: 100%;
+  }
+
+  .cart-items-container {
+    max-height: none;
+    padding-right: 0;
+  }
+
+  .product-img-wrapper {
+    height: 200px;
+  }
+
+  .auth-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-title {
+    font-size: 2rem;
+  }
+
+  /* Make cart items stack better on mobile */
+  .cart-items-container .card {
+    margin-bottom: 1rem;
+  }
+
+  .cart-items-container .col-md-3 {
+    max-height: 200px;
+  }
+
+  .cart-items-container .card-body {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .cart-items-container .card-body button {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 400px;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .filter-card {
+    border-radius: 15px;
+  }
+
+  .filter-header {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .filter-body {
+    padding: 1rem;
+  }
+
+  .product-card {
+    margin-bottom: 1rem;
+  }
+
+  .auth-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .auth-card {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
+
+  .auth-title {
+    font-size: 1.75rem;
+  }
+
+  /* Cart responsive improvements */
+  .cart-summary-card {
+    padding: 1.5rem !important;
+  }
+
+  .cart-summary-card h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Print Styles for Receipt */
+@media print {
+  .d-print-none {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .receipt-container {
+    padding: 0;
+  }
+}
+
+/* Loading Spinner */
+.spinner-border {
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button,
+a,
+.card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Admin and User Menu Styles */
+.admin-menu-container,
+.user-menu-container {
+  position: sticky;
+  top: 100px;
+}
+
+.admin-menu-list .list-group-item,
+.user-menu-list .list-group-item {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.admin-menu-list .list-group-item:hover,
+.user-menu-list .list-group-item:hover {
+  background: #f8f9fa;
+  transform: translateX(5px);
+  padding-left: 1.5rem;
+}
+
+.admin-menu-list .list-group-item.active,
+.user-menu-list .list-group-item.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-left: 4px solid #fdbb2d;
+  font-weight: 600;
+}
+
+.admin-menu-list .list-group-item.active .icon-wrapper,
+.user-menu-list .list-group-item.active .icon-wrapper {
+  background: rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(10px);
+}
+
+.admin-menu-list .list-group-item.active span,
+.user-menu-list .list-group-item.active span {
+  color: white;
+}
+
+.icon-wrapper {
+  transition: all 0.3s ease;
+}
+
+.admin-menu-list .list-group-item:hover .icon-wrapper,
+.user-menu-list .list-group-item:hover .icon-wrapper {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Responsive Menu */
+@media (max-width: 768px) {
+  .admin-menu-container,
+  .user-menu-container {
+    position: static;
+    margin-bottom: 2rem;
+  }
+
+  .admin-menu-list .list-group-item,
+  .user-menu-list .list-group-item {
+    padding: 0.75rem 1rem;
+  }
+
+  .icon-wrapper {
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+
+/* Menu Card Animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.admin-menu-container .card,
+.user-menu-container .card {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+/* Logout Button Hover */
+.admin-menu-container button:hover,
+.user-menu-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(238, 90, 111, 0.3);
+}
+
+.admin-menu-container button:active,
+.user-menu-container button:active {
+  transform: translateY(0);
+}
