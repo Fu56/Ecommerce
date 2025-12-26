@@ -185,7 +185,7 @@ const HomePage = () => {
       <div className="container pb-5">
         <div className="row">
           {/* Filters Sidebar */}
-          <div className="col-md-3">
+          <div className="col-12 col-md-3 mb-4 mb-md-0">
             <div className="filter-card">
               <div className="filter-header">
                 <i className="bi bi-grid-3x3-gap-fill me-3"></i>
@@ -235,7 +235,7 @@ const HomePage = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="col-md-9">
+          <div className="col-12 col-md-9">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h4
                 className="fw-bold m-0 brand-text"
