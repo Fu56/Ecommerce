@@ -27,6 +27,7 @@ import AdminOrders from "./pages/Admin/AdminOrders.jsx";
 import PaymentSuccess from "./pages/PaymentSuccess.jsx";
 import MockCheckout from "./pages/MockCheckout.jsx";
 import Products from "./pages/Admin/Products.jsx";
+import Terms from "./pages/Terms.jsx";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/policy" element={<Policy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />

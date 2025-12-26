@@ -163,7 +163,7 @@ const Footer = () => {
             <div className="col-md-6 text-center text-md-end mt-3 mt-md-0">
               <div className="footer-bottom-links">
                 <Link
-                  to="/policy"
+                  to="/terms"
                   className="small text-muted me-3 text-decoration-none"
                 >
                   Terms
