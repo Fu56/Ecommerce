@@ -23,10 +23,10 @@ export const getAllOrdersController = async (req, res) => {
   try {
     const orders = await orderModel
       .find({})
-      .populate("products", "-photo")
+      .populate("products", "-image")
       .populate("buyer", "name")
       .sort({ createdAt: "-1" });
-    res.json(orders);
+    res.json({ success: true, orders });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -64,7 +64,11 @@ export const placeOrderController = async (req, res) => {
     const { cart } = req.body;
     const order = new orderModel({
       products: cart,
-      payment: "Success",
+      payment: {
+        status: "completed",
+        method: "Manual",
+        amount: 0,
+      },
       buyer: req.user._id,
     }).save();
     res.json({ ok: true });

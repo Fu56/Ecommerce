@@ -26,6 +26,7 @@ import CartPage from "./pages/CartPage.jsx";
 import AdminOrders from "./pages/Admin/AdminOrders.jsx";
 import PaymentSuccess from "./pages/PaymentSuccess.jsx";
 import MockCheckout from "./pages/MockCheckout.jsx";
+import Products from "./pages/Admin/Products.jsx";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           />
           <Route path="/dashboard/admin/users" element={<User />} />
           <Route path="/dashboard/admin/orders" element={<AdminOrders />} />
+          <Route path="/dashboard/admin/products" element={<Products />} />
         </Route>
 
         <Route path="/register" element={<Register />} />

@@ -108,31 +108,60 @@ const PaymentSuccess = () => {
                       </p>
 
                       {orderDetails && (
-                        <div className="bg-light rounded-3 p-4 mb-4 text-start">
-                          <h6 className="text-uppercase small text-muted fw-bold mb-3">
-                            Transaction Details
+                        <div
+                          className="receipt-container bg-white border rounded-3 p-4 mb-4 text-start shadow-sm"
+                          id="receipt"
+                        >
+                          <div className="text-center mb-4 border-bottom pb-3">
+                            <h4 className="brand-text m-0">All-Mart Receipt</h4>
+                            <small className="text-muted">
+                              Payment Confirmation
+                            </small>
+                          </div>
+
+                          <h6 className="text-uppercase small text-muted fw-bold mb-3 border-bottom pb-2">
+                            Order Information
                           </h6>
+
                           <div className="d-flex justify-content-between mb-2">
                             <span className="text-muted">Transaction Ref:</span>
-                            <span className="fw-bold">
+                            <span className="fw-bold small text-break ms-3">
                               {orderDetails.tx_ref || tx_ref}
                             </span>
                           </div>
+
                           <div className="d-flex justify-content-between mb-2">
-                            <span className="text-muted">Amount Paid:</span>
-                            <span className="fw-bold text-success">
-                              ETB {orderDetails.amount || orderDetails.charge}
+                            <span className="text-muted">Date:</span>
+                            <span className="fw-bold">
+                              {new Date().toLocaleDateString()}
                             </span>
                           </div>
+
                           <div className="d-flex justify-content-between mb-2">
                             <span className="text-muted">Payment Method:</span>
-                            <span className="fw-bold">
-                              {orderDetails.method || "Chapa"}
+                            <span className="fw-bold text-capitalize">
+                              {orderDetails.method?.replace(/_/g, " ") ||
+                                "Chapa"}
                             </span>
                           </div>
-                          <div className="d-flex justify-content-between">
-                            <span className="text-muted">Status:</span>
-                            <span className="badge bg-success">Completed</span>
+
+                          <div className="border-top mt-3 pt-3">
+                            <div className="d-flex justify-content-between align-items-center">
+                              <span className="fw-bold fs-5">Total Paid:</span>
+                              <span className="brand-text fw-bold fs-4">
+                                ETB {orderDetails.amount || orderDetails.charge}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="mt-4 text-center d-print-none">
+                            <button
+                              className="btn btn-sm btn-outline-info rounded-pill"
+                              onClick={() => window.print()}
+                            >
+                              <i className="bi bi-printer me-2"></i> Print
+                              Receipt
+                            </button>
                           </div>
                         </div>
                       )}
@@ -142,7 +171,8 @@ const PaymentSuccess = () => {
                           className="btn btn-primary btn-lg rounded-pill fw-bold"
                           onClick={() => navigate("/dashboard/user/orders")}
                         >
-                          View My Orders
+                          <i className="bi bi-bag-check me-2"></i> View My
+                          Orders
                         </button>
                         <button
                           className="btn btn-outline-secondary rounded-pill"

@@ -53,6 +53,7 @@ const Orders = () => {
                     </span>
                     <span
                       className={`badge ${
+                        order.status === "deliverd" ||
                         order.status === "Delivered"
                           ? "bg-success"
                           : order.status === "Processing"
@@ -83,13 +84,15 @@ const Orders = () => {
                     <div className="row mb-3">
                       <div className="col-md-4">
                         <strong>Payment:</strong>{" "}
-                        {order.payment?.success ? (
+                        {order.payment?.status === "completed" ||
+                        order.payment === "Success" ? (
                           <span className="text-success">
-                            <i className="bi bi-check-circle me-1"></i> Success
+                            <i className="bi bi-check-circle me-1"></i> Paid
                           </span>
                         ) : (
-                          <span className="text-danger">
-                            <i className="bi bi-x-circle me-1"></i> Failed
+                          <span className="text-warning">
+                            <i className="bi bi-clock-history me-1"></i>{" "}
+                            {order.payment?.status || "Pending"}
                           </span>
                         )}
                       </div>

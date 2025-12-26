@@ -26,8 +26,12 @@ const AdminOrders = () => {
     try {
       setLoading(true);
       const { data } = await axios.get("/api/v1/order/all-orders");
-      setOrders(data);
-      console.log("Orders loaded:", data.length);
+      if (data?.success) {
+        setOrders(data.orders);
+        console.log("Orders loaded:", data.orders?.length);
+      } else {
+        toast.error("Failed to load orders");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Error loading orders");
