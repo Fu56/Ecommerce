@@ -53,7 +53,7 @@ const Orders = () => {
                     </span>
                     <span
                       className={`badge ${
-                        order.status === "delivered" ||
+                        order.status === "Delivered" ||
                         order.status === "Delivered"
                           ? "bg-success"
                           : order.status === "Processing"
