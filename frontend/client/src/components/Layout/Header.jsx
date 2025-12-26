@@ -65,15 +65,27 @@ const Header = () => {
               >
                 <i className="bi bi-grid nav-icon"></i> Categories
               </Link>
-              <ul className="dropdown-menu">
+              <ul
+                className="dropdown-menu shadow-lg border-0 rounded-4 mt-2"
+                style={{ maxHeight: "400px", overflowY: "auto" }}
+              >
                 <li>
-                  <Link className="dropdown-item" to={"/categories"}>
+                  <Link
+                    className="dropdown-item px-3 py-2 fw-bold"
+                    to={"/categories"}
+                  >
                     All Categories
                   </Link>
                 </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
                 {categories?.map((c) => (
                   <li key={c._id}>
-                    <Link className="dropdown-item" to={`/category/${c.slug}`}>
+                    <Link
+                      className="dropdown-item px-3 py-2"
+                      to={`/category/${c.slug}`}
+                    >
                       {c.name}
                     </Link>
                   </li>
@@ -104,7 +116,11 @@ const Header = () => {
                   <i className="bi bi-person-circle nav-icon"></i>{" "}
                   {auth?.user?.name}
                 </NavLink>
-                <ul className="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-2">
+                  <div className="px-3 py-2 border-bottom">
+                    <b className="d-block">{auth?.user?.name}</b>
+                    <small className="text-muted">{auth?.user?.email}</small>
+                  </div>
                   <li>
                     <NavLink
                       to={
@@ -112,15 +128,41 @@ const Header = () => {
                           ? "/dashboard/admin"
                           : "/dashboard/user"
                       }
-                      className="dropdown-item"
+                      className="dropdown-item px-3 py-2"
                     >
-                      <i className="bi bi-speedometer2 me-2"></i> Dashboard
+                      <i className="bi bi-speedometer2 me-2 text-primary"></i>{" "}
+                      Dashboard
                     </NavLink>
+                  </li>
+                  {auth?.user?.role !== 1 && (
+                    <>
+                      <li>
+                        <NavLink
+                          to="/dashboard/user/profile"
+                          className="dropdown-item px-3 py-2"
+                        >
+                          <i className="bi bi-person me-2 text-info"></i>{" "}
+                          Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/dashboard/user/orders"
+                          className="dropdown-item px-3 py-2"
+                        >
+                          <i className="bi bi-box-seam me-2 text-success"></i>{" "}
+                          Orders
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
+                  <li>
+                    <hr className="dropdown-divider" />
                   </li>
                   <li>
                     <button
                       onClick={handleLogout}
-                      className="dropdown-item text-danger"
+                      className="dropdown-item px-3 py-2 text-danger fw-bold"
                     >
                       <i className="bi bi-box-arrow-right me-2"></i> Logout
                     </button>
