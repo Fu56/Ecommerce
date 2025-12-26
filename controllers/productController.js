@@ -1,7 +1,8 @@
 import productModel from "../models/productModel.js";
+import categoryModel from "../models/categoryModel.js";
+import userModel from "../models/userModel.js";
 import fs from "fs";
 import slugify from "slugify";
-import categoryModel from "../models/categoryModel.js";
 
 export const createProductController = async (req, res) => {
   try {
@@ -289,6 +290,55 @@ export const relatedProductController = async (req, res) => {
     res.status(400).send({
       success: false,
       message: "error while getting related product",
+      error,
+    });
+  }
+};
+
+// product review
+export const productReviewController = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const product = await productModel.findById(req.params.pid);
+    const user = await userModel.findById(req.user._id);
+
+    if (product) {
+      const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+      if (alreadyReviewed) {
+        return res.status(400).send({
+          success: false,
+          message: "Product alread reviewed",
+        });
+      }
+      const review = {
+        name: user.name,
+        rating: Number(rating),
+        comment,
+        user: req.user._id,
+      };
+      product.reviews.push(review);
+      product.numReviews = product.reviews.length;
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+      await product.save();
+      res.status(201).send({
+        success: true,
+        message: "Review Added",
+      });
+    } else {
+      res.status(404).send({
+        success: false,
+        message: "Product not found",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in Review",
       error,
     });
   }

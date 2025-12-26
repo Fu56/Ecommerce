@@ -1,5 +1,6 @@
 import express from "express";
 import formidable from "express-formidable";
+import { requireSignIn } from "../middlewares/authMiddleware.js";
 import {
   createProductController,
   getProductController,
@@ -12,6 +13,7 @@ import {
   productListController,
   productCategoryController,
   relatedProductController,
+  productReviewController,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -48,5 +50,8 @@ router.get("/product-category/:slug", productCategoryController);
 
 // similar product
 router.get("/related-product/:pid/:cid", relatedProductController);
+
+// review product
+router.put("/product-review/:pid", requireSignIn, productReviewController);
 
 export default router;

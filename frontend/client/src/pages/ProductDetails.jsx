@@ -5,16 +5,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useCart } from "../context/cart.jsx";
 import { useWishlist } from "../context/wishlist.jsx";
+import { useAuth } from "../context/auth";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [wishlist, setWishlist] = useWishlist();
+  const [auth] = useAuth();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userRating, setUserRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   // Initial product details
   useEffect(() => {
@@ -98,6 +101,32 @@ const ProductDetails = () => {
     });
   };
 
+  // Submit Review
+  const handleSubmitReview = async () => {
+    try {
+      if (!userRating || !comment) {
+        toast.error("Please provide both rating and comment");
+        return;
+      }
+      const { data } = await axios.put(
+        `/api/v1/product/product-review/${product._id}`,
+        {
+          rating: userRating,
+          comment,
+        }
+      );
+      if (data?.success) {
+        toast.success("Review Submitted Successfully");
+        setComment("");
+        setUserRating(0);
+        getProduct();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -137,7 +166,6 @@ const ProductDetails = () => {
                   <span className="badge bg-light text-dark border px-3 py-2 rounded-pill text-uppercase tracking-wide">
                     {product?.category?.name || "Category"}
                   </span>
-                  {/* Stock Status could go here */}
                   <span className="ms-3 text-success fw-bold small">
                     <i className="bi bi-check-circle-fill me-1"></i> In Stock
                   </span>
@@ -152,19 +180,24 @@ const ProductDetails = () => {
                     ${product.price}
                   </div>
                   <div className="product-rating text-warning small d-flex align-items-center">
+                    <span className="me-2 fw-bold text-dark">
+                      {product.rating ? product.rating.toFixed(1) : 0}
+                    </span>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <i
                         key={star}
                         className={`bi ${
-                          star <= (userRating || 4.5)
+                          star <= (product.rating || 0)
                             ? "bi-star-fill"
+                            : star - 0.5 <= (product.rating || 0)
+                            ? "bi-star-half"
                             : "bi-star"
-                        } cursor-pointer me-1`}
-                        onClick={() => setUserRating(star)}
-                        style={{ cursor: "pointer" }}
+                        } me-1`}
                       ></i>
                     ))}
-                    <span className="text-muted ms-2">(4.8)</span>
+                    <span className="text-muted ms-2">
+                      ({product.numReviews} Reviews)
+                    </span>
                   </div>
                 </div>
 
@@ -215,6 +248,101 @@ const ProductDetails = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Reviews Section */}
+          <div className="row mt-5">
+            <div className="col-md-7">
+              <div className="reviews-container bg-white rounded-4 p-4 shadow-sm border">
+                <h3 className="mb-4 fw-bold">
+                  Customer Reviews ({product?.reviews?.length})
+                </h3>
+
+                {product?.reviews?.length === 0 && (
+                  <p className="text-center text-muted my-5">
+                    No reviews yet. Be the first to review!
+                  </p>
+                )}
+
+                {product?.reviews?.map((r, i) => (
+                  <div key={i} className="review-item mb-4 border-bottom pb-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <h6 className="fw-bold mb-0">{r.name}</h6>
+                      <div className="text-warning small">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <i
+                            key={star}
+                            className={`bi ${
+                              star <= r.rating ? "bi-star-fill" : "bi-star"
+                            }`}
+                          ></i>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-muted mb-0">{r.comment}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="write-review-container bg-white rounded-4 p-4 shadow-sm border">
+                <h4 className="fw-bold mb-3">Write a Review</h4>
+                {auth?.token ? (
+                  <>
+                    <div className="mb-3">
+                      <label className="form-label text-muted small text-uppercase fw-bold">
+                        Select Rating
+                      </label>
+                      <div className="d-flex text-warning fs-4">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <i
+                            key={star}
+                            className={`bi ${
+                              star <= userRating ? "bi-star-fill" : "bi-star"
+                            } cursor-pointer me-2 transition-hover`}
+                            onClick={() => setUserRating(star)}
+                          ></i>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label text-muted small text-uppercase fw-bold">
+                        Your Review
+                      </label>
+                      <textarea
+                        className="form-control rounded-3 bg-light border-0"
+                        rows="4"
+                        placeholder="How was your experience?"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                      ></textarea>
+                    </div>
+                    <button
+                      className="btn btn-primary w-100 rounded-pill py-2 fw-bold"
+                      onClick={handleSubmitReview}
+                    >
+                      Submit Review
+                    </button>
+                  </>
+                ) : (
+                  <div className="text-center py-5">
+                    <p className="text-muted mb-3">
+                      Please login to write a review
+                    </p>
+                    <button
+                      className="btn btn-outline-primary rounded-pill px-4"
+                      onClick={() =>
+                        navigate("/login", {
+                          state: `/product/${product.slug}`,
+                        })
+                      }
+                    >
+                      Login
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -415,6 +543,14 @@ const ProductDetails = () => {
 
         .tracking-wide {
           letter-spacing: 1px;
+        }
+
+        .cursor-pointer {
+          cursor: pointer;
+        }
+
+        .transition-hover:hover {
+          transform: scale(1.2);
         }
 
         @media (max-width: 991px) {
