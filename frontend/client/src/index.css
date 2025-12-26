@@ -289,26 +289,79 @@
 .filter-card {
   background: white;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 100px;
   margin-bottom: 2rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+}
+
+.filter-card:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .filter-header {
-  background: #f8f9fa;
-  padding: 1.25rem 1.5rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  border-bottom: 1px solid #eee;
-  color: #333;
+  background: linear-gradient(to right, #ffffff, #f9f9f9);
+  padding: 1.5rem;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #1a2a6c;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .filter-body {
-  padding: 1.5rem;
+  padding: 1.75rem;
+}
+
+.filter-item-wrapper {
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 4px;
+}
+
+.filter-item-wrapper:hover {
+  background: #f0f4ff;
+  transform: translateX(5px);
+}
+
+/* Custom Checkbox/Radio Styling */
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #1a2a6c !important;
+  border-color: #1a2a6c !important;
+}
+
+.ant-radio-checked .ant-radio-inner {
+  border-color: #b21f1f !important;
+}
+
+.ant-radio-inner::after {
+  background-color: #b21f1f !important;
+}
+
+.filter-reset-btn {
+  background: linear-gradient(135deg, #333333, #000000);
+  color: white;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.filter-reset-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #000000, #333333);
+  color: #fdbb2d;
 }
 
 .product-card {

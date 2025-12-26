@@ -188,32 +188,37 @@ const HomePage = () => {
           <div className="col-md-3">
             <div className="filter-card">
               <div className="filter-header">
-                <i className="bi bi-funnel me-2"></i> Filter by Category
+                <i className="bi bi-grid-3x3-gap-fill me-3"></i>
+                <span>Categories</span>
               </div>
-              <div className="filter-body d-flex flex-column gap-2">
+              <div className="filter-body d-flex flex-column">
                 {categories?.map((c) => (
-                  <Checkbox
-                    key={c._id}
-                    onChange={(e) => handleFilter(e.target.checked, c._id)}
-                    className="fs-6"
-                  >
-                    {c.name}
-                  </Checkbox>
+                  <div key={c._id} className="filter-item-wrapper">
+                    <Checkbox
+                      onChange={(e) => handleFilter(e.target.checked, c._id)}
+                      className="w-100 m-0 fw-500"
+                    >
+                      {c.name}
+                    </Checkbox>
+                  </div>
                 ))}
               </div>
             </div>
 
             <div className="filter-card mt-4">
               <div className="filter-header">
-                <i className="bi bi-tag me-2"></i> Filter by Price
+                <i className="bi bi-currency-dollar me-3"></i>
+                <span>Price Range</span>
               </div>
               <div className="filter-body">
-                <Radio.Group onChange={handlePriceFilter}>
-                  <div className="d-flex flex-column gap-2">
+                <Radio.Group onChange={handlePriceFilter} className="w-100">
+                  <div className="d-flex flex-column">
                     {Prices?.map((p) => (
-                      <Radio key={p._id} value={p.array} className="fs-6">
-                        {p.name}
-                      </Radio>
+                      <div key={p._id} className="filter-item-wrapper">
+                        <Radio value={p.array} className="w-100 m-0 fw-500">
+                          {p.name}
+                        </Radio>
+                      </div>
                     ))}
                   </div>
                 </Radio.Group>
@@ -221,10 +226,11 @@ const HomePage = () => {
             </div>
 
             <button
-              className="btn btn-dark w-100 rounded-pill py-2 mt-2"
+              className="btn filter-reset-btn w-100 rounded-pill py-3 mt-2"
               onClick={() => window.location.reload()}
             >
-              Reset Filters
+              <i className="bi bi-arrow-counterclockwise me-2"></i>
+              Reset All Filters
             </button>
           </div>
 
