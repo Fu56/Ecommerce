@@ -5,9 +5,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices.js";
+import { useCart } from "../context/cart.jsx";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -125,11 +127,8 @@ const HomePage = () => {
 
   // Add to cart functionality
   const handleAddToCart = (p) => {
-    let cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [];
-    cart.push(p);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    setCart([...cart, p]);
+    localStorage.setItem("cart", JSON.stringify([...cart, p]));
     toast.success("Item Added to Cart", {
       position: "bottom-right",
       autoClose: 2000,

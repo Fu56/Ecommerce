@@ -2,10 +2,15 @@ import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
+import { useCategory } from "../../hooks/useCategory";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const navigate = useNavigate();
+  const categories = useCategory();
 
   const handleLogout = () => {
     setAuth({
@@ -15,7 +20,7 @@ const Header = () => {
     });
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
-    navigate("/login"); // redirect after logout
+    navigate("/login");
   };
 
   return (
@@ -50,10 +55,28 @@ const Header = () => {
                 <i className="bi bi-house-door nav-icon"></i> Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink to="/category" className="nav-link nav-link-custom">
-                <i className="bi bi-grid nav-icon"></i> Category
-              </NavLink>
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle nav-link-custom"
+                to={"/categories"}
+                data-bs-toggle="dropdown"
+              >
+                <i className="bi bi-grid nav-icon"></i> Categories
+              </Link>
+              <ul className="dropdown-menu">
+                <li>
+                  <Link className="dropdown-item" to={"/categories"}>
+                    All Categories
+                  </Link>
+                </li>
+                {categories?.map((c) => (
+                  <li key={c._id}>
+                    <Link className="dropdown-item" to={`/category/${c.slug}`}>
+                      {c.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </li>
 
             {!auth?.user ? (
@@ -107,15 +130,14 @@ const Header = () => {
 
             {/* Cart with badge */}
             <li className="nav-item ms-3">
-              <NavLink
-                to="/cart"
-                className="nav-link nav-link-custom position-relative"
-              >
-                <i className="bi bi-cart3 nav-icon"></i> Cart
-                <span className="cart-badge badge rounded-pill bg-danger">
-                  3
-                </span>
-              </NavLink>
+              <Badge count={cart?.length} showZero offset={[5, 10]}>
+                <NavLink
+                  to="/cart"
+                  className="nav-link nav-link-custom position-relative"
+                >
+                  <i className="bi bi-cart3 nav-icon"></i> Cart
+                </NavLink>
+              </Badge>
             </li>
           </ul>
         </div>
