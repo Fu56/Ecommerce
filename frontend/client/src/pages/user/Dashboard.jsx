@@ -1,48 +1,156 @@
-import React from 'react';
-import Layout from '../../components/Layout/Layout';
-import { useAuth } from '../../context/auth';
+import React from "react";
+import Layout from "../../components/Layout/Layout";
+import { useAuth } from "../../context/auth";
 import UserMenu from "../../components/Layout/UserMenu.jsx";
 
 const Dashboard = () => {
   const [auth] = useAuth();
+
   return (
     <Layout title={"Dashboard - All-Mart"}>
       <div className="container-fluid py-5">
         <div className="row g-4">
+          {/* Sidebar */}
           <div className="col-md-3">
-              <UserMenu />
+            <UserMenu />
           </div>
+
+          {/* Main content */}
           <div className="col-md-9">
-            <div className="card shadow-lg border-0 rounded-3">
-              <div className="card-header bg-dark text-white p-4">
-                <h3 className="mb-0">
-                  <i className="bi bi-speedometer2 me-2"></i> User Dashboard
-                </h3>
+            <div className="admin-info-card p-0 border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+              {/* Header Gradient */}
+              <div
+                className="p-5 text-center position-relative"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  color: "white",
+                }}
+              >
+                <div
+                  className="user-avatar-large mx-auto mb-3 shadow-lg"
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    borderRadius: "50%",
+                    background: "rgba(255, 255, 255, 0.2)",
+                    backdropFilter: "blur(10px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "3.5rem",
+                    fontWeight: "bold",
+                    border: "4px solid rgba(255, 255, 255, 0.3)",
+                  }}
+                >
+                  {auth?.user?.name?.charAt(0).toUpperCase()}
+                </div>
+                <h2 className="fw-bold mb-1">{auth?.user?.name}</h2>
+                <span className="badge rounded-pill bg-light text-primary px-3 py-2 fw-600">
+                  <i className="bi bi-star-fill me-1"></i> Member Since{" "}
+                  {new Date(auth?.user?.createdAt).getFullYear() || "2024"}
+                </span>
               </div>
-              <div className="card-body p-5">
-                <div className="row align-items-center">
-                  <div className="col-md-4 text-center mb-4 mb-md-0">
-                    <div className="display-1 text-primary">
-                      <i className="bi bi-person-circle"></i>
+
+              {/* Info Section */}
+              <div className="p-5">
+                <div className="row justify-content-center">
+                  <div className="col-lg-10">
+                    <h4 className="mb-4 text-muted fw-bold text-uppercase small letter-spacing-1">
+                      <i className="bi bi-info-circle me-2"></i> Account
+                      Overview
+                    </h4>
+
+                    <div className="row g-4">
+                      {/* Name Card */}
+                      <div className="col-md-6">
+                        <div className="p-4 rounded-4 bg-light border-start border-4 border-primary shadow-sm h-100">
+                          <small
+                            className="text-muted d-block text-uppercase fw-bold mb-1"
+                            style={{ fontSize: "0.7rem" }}
+                          >
+                            Full Name
+                          </small>
+                          <h5 className="mb-0 fw-bold text-dark">
+                            {auth?.user?.name}
+                          </h5>
+                        </div>
+                      </div>
+
+                      {/* Email Card */}
+                      <div className="col-md-6">
+                        <div className="p-4 rounded-4 bg-light border-start border-4 border-info shadow-sm h-100">
+                          <small
+                            className="text-muted d-block text-uppercase fw-bold mb-1"
+                            style={{ fontSize: "0.7rem" }}
+                          >
+                            Email Address
+                          </small>
+                          <h5 className="mb-0 fw-bold text-dark text-break">
+                            {auth?.user?.email}
+                          </h5>
+                        </div>
+                      </div>
+
+                      {/* Phone Card */}
+                      <div className="col-md-6">
+                        <div className="p-4 rounded-4 bg-light border-start border-4 border-success shadow-sm h-100">
+                          <small
+                            className="text-muted d-block text-uppercase fw-bold mb-1"
+                            style={{ fontSize: "0.7rem" }}
+                          >
+                            Contact Number
+                          </small>
+                          <h5 className="mb-0 fw-bold text-dark">
+                            {auth?.user?.phone || "Not Provided"}
+                          </h5>
+                        </div>
+                      </div>
+
+                      {/* Address Card */}
+                      <div className="col-md-6">
+                        <div className="p-4 rounded-4 bg-light border-start border-4 border-warning shadow-sm h-100">
+                          <small
+                            className="text-muted d-block text-uppercase fw-bold mb-1"
+                            style={{ fontSize: "0.7rem" }}
+                          >
+                            Primary Address
+                          </small>
+                          <h5 className="mb-0 fw-bold text-dark small">
+                            {auth?.user?.address || "No address on file"}
+                          </h5>
+                        </div>
+                      </div>
                     </div>
-                    <h4 className="mt-2">{auth?.user?.name}</h4>
-                    <span className="badge bg-info text-dark">User</span>
-                  </div>
-                  <div className="col-md-8">
-                    <div className="p-4 bg-light rounded shadow-sm">
-                      <h5 className="mb-3 border-bottom pb-2">
-                        <i className="bi bi-info-circle me-2 text-info"></i>
-                        User Information
-                      </h5>
-                      <p className="mb-2">
-                        <strong>Name:</strong> {auth?.user?.name}
-                      </p>
-                      <p className="mb-2">
-                        <strong>Email:</strong> {auth?.user?.email}
-                      </p>
-                      <p className="mb-0">
-                        <strong>Address:</strong> {auth?.user?.address}
-                      </p>
+
+                    {/* Quick Stats or Actions */}
+                    <div className="mt-5 pt-4 border-top">
+                      <div className="row text-center g-3">
+                        <div className="col-6 col-md-3">
+                          <div className="p-3">
+                            <h3 className="fw-bold mb-0 text-primary">0</h3>
+                            <small className="text-muted">Active Orders</small>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <div className="p-3">
+                            <h3 className="fw-bold mb-0 text-success">$0</h3>
+                            <small className="text-muted">Total Spent</small>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <div className="p-3">
+                            <h3 className="fw-bold mb-0 text-info">0</h3>
+                            <small className="text-muted">Wishlist Items</small>
+                          </div>
+                        </div>
+                        <div className="col-6 col-md-3">
+                          <div className="p-3">
+                            <h3 className="fw-bold mb-0 text-warning">0</h3>
+                            <small className="text-muted">Reviews</small>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -51,6 +159,23 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .fw-600 {
+          font-weight: 600;
+        }
+        .letter-spacing-1 {
+          letter-spacing: 1px;
+        }
+        .user-avatar-large {
+          transition: all 0.5s ease;
+          cursor: default;
+        }
+        .user-avatar-large:hover {
+          transform: scale(1.05) rotate(5deg);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+        }
+      `}</style>
     </Layout>
   );
 };
