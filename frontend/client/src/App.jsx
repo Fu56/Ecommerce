@@ -29,11 +29,14 @@ import MockCheckout from "./pages/MockCheckout.jsx";
 import Products from "./pages/Admin/Products.jsx";
 import Terms from "./pages/Terms.jsx";
 
+import Wishlist from "./pages/user/Wishlist.jsx";
+
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/dashboard/user" element={<PrivateRoute />}>
           <Route index element={<Dashboard />} />
           <Route path="profile" element={<Profiles />} />

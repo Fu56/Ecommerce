@@ -2,9 +2,11 @@ import React from "react";
 import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import UserMenu from "../../components/Layout/UserMenu.jsx";
+import { useWishlist } from "../../context/wishlist";
 
 const Dashboard = () => {
   const [auth] = useAuth();
+  const [wishlist] = useWishlist();
 
   return (
     <Layout title={"Dashboard - All-Mart"}>
@@ -140,7 +142,9 @@ const Dashboard = () => {
                         </div>
                         <div className="col-6 col-md-3">
                           <div className="p-3">
-                            <h3 className="fw-bold mb-0 text-info">0</h3>
+                            <h3 className="fw-bold mb-0 text-info">
+                              {wishlist?.length}
+                            </h3>
                             <small className="text-muted">Wishlist Items</small>
                           </div>
                         </div>

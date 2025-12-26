@@ -4,14 +4,17 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useCart } from "../context/cart.jsx";
+import { useWishlist } from "../context/wishlist.jsx";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
+  const [wishlist, setWishlist] = useWishlist();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userRating, setUserRating] = useState(0);
 
   // Initial product details
   useEffect(() => {
@@ -62,6 +65,36 @@ const ProductDetails = () => {
         background: "#333",
         color: "#fff",
       },
+    });
+  };
+
+  // Wishlist Logic
+  const isDiff = (p) => {
+    return wishlist.some((item) => item._id === p._id);
+  };
+
+  const handleWishlist = (p) => {
+    if (isDiff(p)) {
+      // Remove
+      let myWishlist = [...wishlist];
+      let index = myWishlist.findIndex((item) => item._id === p._id);
+      myWishlist.splice(index, 1);
+      setWishlist(myWishlist);
+      localStorage.setItem("wishlist", JSON.stringify(myWishlist));
+      toast.success("Removed from Wishlist");
+    } else {
+      // Add
+      setWishlist([...wishlist, p]);
+      localStorage.setItem("wishlist", JSON.stringify([...wishlist, p]));
+      toast.success("Added to Wishlist");
+    }
+  };
+
+  // Share Logic
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Link copied to clipboard!", {
+      icon: "🔗",
     });
   };
 
@@ -118,12 +151,19 @@ const ProductDetails = () => {
                   <div className="product-price h2 mb-0 me-4">
                     ${product.price}
                   </div>
-                  <div className="product-rating text-warning small">
-                    <i className="bi bi-star-fill"></i>
-                    <i className="bi bi-star-fill"></i>
-                    <i className="bi bi-star-fill"></i>
-                    <i className="bi bi-star-fill"></i>
-                    <i className="bi bi-star-half"></i>
+                  <div className="product-rating text-warning small d-flex align-items-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <i
+                        key={star}
+                        className={`bi ${
+                          star <= (userRating || 4.5)
+                            ? "bi-star-fill"
+                            : "bi-star"
+                        } cursor-pointer me-1`}
+                        onClick={() => setUserRating(star)}
+                        style={{ cursor: "pointer" }}
+                      ></i>
+                    ))}
                     <span className="text-muted ms-2">(4.8)</span>
                   </div>
                 </div>
@@ -139,10 +179,24 @@ const ProductDetails = () => {
                   >
                     <i className="bi bi-bag-plus-fill me-2"></i> Add to Cart
                   </button>
-                  <button className="btn btn-outline-secondary btn-lg rounded-circle icon-btn border-2">
-                    <i className="bi bi-heart"></i>
+                  <button
+                    className={`btn btn-lg rounded-circle icon-btn border-2 ${
+                      isDiff(product)
+                        ? "btn-danger text-white border-danger"
+                        : "btn-outline-secondary"
+                    }`}
+                    onClick={() => handleWishlist(product)}
+                  >
+                    <i
+                      className={`bi ${
+                        isDiff(product) ? "bi-heart-fill" : "bi-heart"
+                      }`}
+                    ></i>
                   </button>
-                  <button className="btn btn-outline-secondary btn-lg rounded-circle icon-btn border-2">
+                  <button
+                    className="btn btn-outline-secondary btn-lg rounded-circle icon-btn border-2"
+                    onClick={handleShare}
+                  >
                     <i className="bi bi-share"></i>
                   </button>
                 </div>
@@ -293,6 +347,7 @@ const ProductDetails = () => {
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
+          background: transparent;
         }
 
         .icon-btn:hover {

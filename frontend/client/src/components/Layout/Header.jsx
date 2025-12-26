@@ -4,11 +4,13 @@ import { useAuth } from "../../context/auth";
 import { toast } from "react-toastify";
 import { useCategory } from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
+import { useWishlist } from "../../context/wishlist";
 import { Badge } from "antd";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
+  const [wishlist] = useWishlist();
   const navigate = useNavigate();
   const categories = useCategory();
 
@@ -78,7 +80,6 @@ const Header = () => {
                 ))}
               </ul>
             </li>
-
             {!auth?.user ? (
               <>
                 <li className="nav-item">
@@ -127,7 +128,22 @@ const Header = () => {
                 </ul>
               </li>
             )}
-
+            {/* Wishlist with badge */}
+            <li className="nav-item ms-2">
+              <Badge
+                count={wishlist?.length}
+                showZero
+                offset={[5, 10]}
+                color="#fdbb2d"
+              >
+                <NavLink
+                  to="/wishlist"
+                  className="nav-link nav-link-custom position-relative"
+                >
+                  <i className="bi bi-heart nav-icon"></i> Wishlist
+                </NavLink>
+              </Badge>
+            </li>
             {/* Cart with badge */}
             <li className="nav-item ms-3">
               <Badge count={cart?.length} showZero offset={[5, 10]}>

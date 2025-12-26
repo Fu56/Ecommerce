@@ -5,16 +5,19 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { AuthProvider } from "./context/auth.jsx";
 import { CartProvider } from "./context/cart.jsx";
+import { WishlistProvider } from "./context/wishlist.jsx";
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter future={{ v7_relativeSplatPath: true }}>
-          <Toaster />
-          <App />
-        </BrowserRouter>
+        <WishlistProvider>
+          <BrowserRouter future={{ v7_relativeSplatPath: true }}>
+            <Toaster />
+            <App />
+          </BrowserRouter>
+        </WishlistProvider>
       </CartProvider>
     </AuthProvider>
   </StrictMode>
