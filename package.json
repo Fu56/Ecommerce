@@ -1,39 +1,16 @@
 {
-  "name": "ecommerce",
+  "name": "ecommerce-root",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Root orchestrator for Ecommerce MERN app",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm  run dev  --prefix frontend/client",
+    "start": "npm run dev",
+    "server": "npm run server --prefix backend",
+    "client": "npm run dev --prefix frontend/client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Fu56/Ecommerce.git"
-  },
-  "keywords": [],
-  "author": "Fuad Abdela",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/Fu56/Ecommerce/issues"
-  },
-  "homepage": "https://github.com/Fu56/Ecommerce#readme",
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "chapa": "^1.0.5",
-    "colors": "^1.4.0",
-    "concurrently": "^9.2.1",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "express-formidable": "^1.2.0",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.0.2",
-    "morgan": "^1.10.1",
-    "nodemon": "^3.1.11",
-    "slugify": "^1.6.6"
-  }
+    "concurrently": "^9.2.1"
+  },
+  "author": "Fuad Abdela",
+  "license": "ISC"
 }
