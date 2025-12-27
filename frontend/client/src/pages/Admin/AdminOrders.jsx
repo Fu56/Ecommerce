@@ -211,7 +211,9 @@ const AdminOrders = () => {
                           >
                             <div className="col-md-2 col-4 text-center mb-2 mb-md-0">
                               <img
-                                src={`/api/v1/product/product-photo/${p._id}`}
+                                src={`${
+                                  import.meta.env.VITE_API || ""
+                                }/api/v1/product/product-photo/${p._id}`}
                                 className="rounded"
                                 alt={p.name}
                                 style={{

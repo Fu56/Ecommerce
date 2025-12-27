@@ -121,7 +121,9 @@ const Orders = () => {
                               <td>{i + 1}</td>
                               <td>
                                 <img
-                                  src={`/api/v1/product/product-photo/${p._id}`}
+                                  src={`${
+                                    import.meta.env.VITE_API || ""
+                                  }/api/v1/product/product-photo/${p._id}`}
                                   alt={p.name}
                                   className="img-thumbnail"
                                   style={{

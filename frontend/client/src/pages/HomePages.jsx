@@ -258,7 +258,9 @@ const HomePage = () => {
                   >
                     <div className="product-img-wrapper">
                       <img
-                        src={`/api/v1/product/product-photo/${p._id}`}
+                        src={`${
+                          import.meta.env.VITE_API || ""
+                        }/api/v1/product/product-photo/${p._id}`}
                         alt={p.name}
                       />
                       <div className="card-actions">

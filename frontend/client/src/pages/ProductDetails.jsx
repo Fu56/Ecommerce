@@ -152,7 +152,9 @@ const ProductDetails = () => {
               <div className="product-image-wrapper p-5">
                 <div className="image-backdrop"></div>
                 <img
-                  src={`/api/v1/product/product-photo/${product._id}`}
+                  src={`${
+                    import.meta.env.VITE_API || ""
+                  }/api/v1/product/product-photo/${product._id}`}
                   className="img-fluid product-main-img"
                   alt={product.name}
                 />
@@ -369,7 +371,9 @@ const ProductDetails = () => {
                     >
                       <div className="img-wrapper-sm position-relative overflow-hidden">
                         <img
-                          src={`/api/v1/product/product-photo/${p._id}`}
+                          src={`${
+                            import.meta.env.VITE_API || ""
+                          }/api/v1/product/product-photo/${p._id}`}
                           className="card-img-top"
                           alt={p.name}
                         />

@@ -115,7 +115,9 @@ const Products = () => {
                       <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden product-card">
                         <div className="position-relative">
                           <img
-                            src={`/api/v1/product/product-photo/${p._id}`}
+                            src={`${
+                              import.meta.env.VITE_API || ""
+                            }/api/v1/product/product-photo/${p._id}`}
                             className="card-img-top"
                             alt={p.name}
                             style={{

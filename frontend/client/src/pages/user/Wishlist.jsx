@@ -93,7 +93,9 @@ const Wishlist = () => {
                   <div className="card h-100 border-0 shadow-sm product-card hover-lift">
                     <div className="position-relative overflow-hidden product-img-wrapper">
                       <img
-                        src={`/api/v1/product/product-photo/${p._id}`}
+                        src={`${
+                          import.meta.env.VITE_API || ""
+                        }/api/v1/product/product-photo/${p._id}`}
                         className="card-img-top"
                         alt={p.name}
                         style={{ height: "300px", objectFit: "cover" }}

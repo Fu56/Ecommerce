@@ -6,7 +6,8 @@ This guide will walk you through deploying your Ecommerce application to Vercel.
 
 1.  **GitHub Account**: Your code must be pushed to a GitHub repository.
 2.  **Vercel Account**: Sign up at [vercel.com](https://vercel.com).
-3.  **Environment Variables**: Have your `.env` file values ready (MongoDB URL, Secret Keys, etc.).
+3.  **Environment Variables**: Have your `.env` file values ready.
+    - **IMPORTANT**: You CANNOT use a local database (like `mongodb://localhost...`). You MUST use a cloud database like **MongoDB Atlas**.
 
 ---
 
@@ -62,4 +63,8 @@ If you haven't already, push your code to a GitHub repository.
     - For Backend: It MUST be `backend`.
     - For Frontend: It MUST be `frontend/client`.
   - **Missing Build Command**: Ensure the Build Command is `vite build` (Framework Preset: Vite handles this).
-  - **Refresh 404**: If you get a 404 when refreshing a page, the `vercel.json` (which references `frontend/client`) helps fix this by rewriting routes to `index.html`. We have added this file for you.
+  - **Refresh 404**:If you get a 404 when refreshing a page, the `vercel.json` (which references `frontend/client`) helps fix this by rewriting routes to `index.html`. We have added this file for you.
+- **Missing Images or Data / Search Not Working**:
+  - **Environment Variable**: Ensure `VITE_API` is set in Vercel (Frontend Project > Settings > Environment Variables).
+  - **Value**: It must be the Backend Deployment URL (e.g., `https://ecommerce-backend.vercel.app`).
+  - **Redeploy**: After adding the environment variable, you **MUST Redeploy** the frontend. Go to **Deployments** > click the 3 dots > **Redeploy**.
