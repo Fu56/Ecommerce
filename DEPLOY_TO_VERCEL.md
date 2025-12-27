@@ -32,7 +32,7 @@ If you haven't already, push your code to a GitHub repository.
     - **Framework Preset**: Select **Other** (or just leave default, Vercel detects `vercel.json`).
     - **Environment Variables**: Add all variables from your backend `.env` file here:
       - `PORT`: `8080` (Optional, Vercel manages this, but good to have)
-      - `MONGO_URL`: Your MongoDB connection string
+      - `MONGO_URI`: Your MongoDB connection string
       - `JWT_SECRET`: Your secret key
       - `BRAINTREE_...`: If you use payment gateways.
 4.  Click **Deploy**.
