@@ -9,6 +9,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import cors from "cors";
+import path from "path";
 
 //rest object
 const app = express();
@@ -48,3 +49,5 @@ app.listen(PORT, () => {
       .white
   );
 });
+
+export default app;
