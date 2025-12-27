@@ -57,3 +57,9 @@ If you haven't already, push your code to a GitHub repository.
 
 - **CORS Issues**: If you see CORS errors, ensure your Backend `server.js` has `cors` enabled (it is enabled in your code).
 - **White Screen**: Check the Console (F12) for errors. If it says "Network Error", check if `VITE_API` is set correctly.
+- **404: NOT_FOUND**:
+  - **Wrong Root Directory**: This is the most common cause. Go to Vercel > Settings > General > **Root Directory**.
+    - For Backend: It MUST be `backend`.
+    - For Frontend: It MUST be `frontend/client`.
+  - **Missing Build Command**: Ensure the Build Command is `vite build` (Framework Preset: Vite handles this).
+  - **Refresh 404**: If you get a 404 when refreshing a page, the `vercel.json` (which references `frontend/client`) helps fix this by rewriting routes to `index.html`. We have added this file for you.
